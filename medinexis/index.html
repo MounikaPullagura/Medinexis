@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Medinexis Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #333;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Login & Register Styles */
+    .auth-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .auth-card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .auth-card h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #667eea;
+      font-size: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #555;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e1e5e9;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      display: inline-block;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-secondary {
+      background: #f8f9fa;
+      color: #667eea;
+      border: 2px solid #667eea;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn-secondary:hover {
+      background: #667eea;
+      color: white;
+    }
+
+    .btn-sm {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+
+    .btn-success {
+      background: #28a745;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-warning {
+      background: #ffc107;
+      color: #212529;
+    }
+
+    .btn-info {
+      background: #17a2b8;
+      color: white;
+    }
+
+    /* Dashboard Styles */
+    .dashboard {
+      min-height: 100vh;
+      background: #f8f9fa;
+    }
+
+    header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header-content h1 {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    nav {
+      background: white;
+      padding: 0 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0;
+    }
+
+    .nav-link {
+      padding: 20px 25px;
+      text-decoration: none;
+      color: #666;
+      font-weight: 500;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+      background: #f8f9ff;
+    }
+
+    .main-content {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      margin-bottom: 30px;
+    }
+
+    .container h3 {
+      margin-bottom: 20px;
+      color: #667eea;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Grid & Cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 25px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .stat-card h3 {
+      color: white;
+      font-size: 16px;
+      margin-bottom: 10px;
+      opacity: 0.9;
+    }
+
+    .stat-card p {
+      font-size: 32px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e1e5e9;
+    }
+
+    th {
+      background: #f8f9fa;
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    tr:hover {
+      background: #f8f9ff;
+    }
+
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-approved {
+      background: #d1edff;
+      color: #004085;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-paid {
+      background: #d4edda;
+      color: #155724;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-patient {
+      background: #e2e3e5;
+      color: #383d41;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-doctor {
+      background: #d1ecf1;
+      color: #0c5460;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-admin {
+      background: #f8d7da;
+      color: #721c24;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* Forms */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    /* Notifications */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 10px;
+      color: white;
+      font-weight: 600;
+      z-index: 1000;
+      transform: translateX(400px);
+      transition: transform 0.3s ease;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    .notification.success {
+      background: linear-gradient(135deg, #28a745, #20c997);
+    }
+
+    .notification.danger {
+      background: linear-gradient(135deg, #dc3545, #e83e8c);
+    }
+
+    .notification.info {
+      background: linear-gradient(135deg, #17a2b8, #6f42c1);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-links {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .nav-link {
+        padding: 15px 20px;
+        border-bottom: 1px solid #e1e5e9;
+        border-left: 3px solid transparent;
+      }
+      
+      .nav-link.active {
+        border-left-color: #667eea;
+        border-bottom-color: #e1e5e9;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= LOGIN SCREEN ================= -->
+  <div id="loginScreen" class="auth-container">
+    <div class="auth-card">
+      <h2><i class="fas fa-hospital"></i> Medinexis Login</h2>
+<p style="text-align:center; color:#555; margin-top:8px; font-style:italic;">
+  From register to records - all in one platform
+</p>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email"><i class="fas fa-envelope"></i> Email</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="password"><i class="fas fa-lock"></i> Password</label>
+          <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Login</button>
+        <button type="button" class="btn btn-secondary" onclick="showRegister()">
+          Create New Account
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= REGISTER SCREEN ================= -->
+  <div id="registerScreen" class="auth-container hidden">
+    <div class="auth-card">
+      <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+      <form id="registerForm">
+        <div class="form-group">
+          <label for="regRole"><i class="fas fa-user-tag"></i> Role</label>
+          <select id="regRole" onchange="toggleSpecialization()" required>
+            <option value="">Select Role</option>
+            <option value="patient">Patient</option>
+            <option value="doctor">Doctor</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="regFirstName"><i class="fas fa-user"></i> First Name</label>
+            <input type="text" id="regFirstName" placeholder="First name" required>
+          </div>
+          <div class="form-group">
+            <label for="regLastName"><i class="fas fa-user"></i> Last Name</label>
+            <input type="text" id="regLastName" placeholder="Last name" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="regEmail"><i class="fas fa-envelope"></i> Email</label>
+          <input type="email" id="regEmail" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="regPhone"><i class="fas fa-phone"></i> Phone</label>
+          <input type="tel" id="regPhone" placeholder="Enter your phone number" required>
+        </div>
+
+        <div id="specializationGroup" class="form-group hidden">
+          <label for="regSpecialization"><i class="fas fa-stethoscope"></i> Specialization</label>
+          <select id="regSpecialization">
+            <option value="General Practice">General Practice</option>
+            <option value="Cardiology">Cardiology</option>
+            <option value="Neurology">Neurology</option>
+            <option value="Pediatrics">Pediatrics</option>
+            <option value="Orthopedics">Orthopedics</option>
+            <option value="Dermatology">Dermatology</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="regPassword"><i class="fas fa-lock"></i> Password</label>
+            <input type="password" id="regPassword" placeholder="Create password" required>
+          </div>
+          <div class="form-group">
+            <label for="regConfirmPassword"><i class="fas fa-lock"></i> Confirm Password</label>
+            <input type="password" id="regConfirmPassword" placeholder="Confirm password" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Account</button>
+        <button type="button" class="btn btn-secondary" onclick="showLogin()">
+          <i class="fas fa-arrow-left"></i> Back to Login
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= ADMIN DASHBOARD ================= -->
+  <div id="adminDashboard" class="dashboard hidden">
+    <header>
+      <div class="header-content">
+        <h1><i class="fas fa-hospital"></i> Admin Dashboard</h1>
+        <div class="user-info">
+          <div class="user-avatar" id="adminAvatar">A</div>
+          <span id="adminName">Admin User</span>
+        </div>
+      </div>
+    </header>
+    
+    <nav>
+      <div class="nav-container">
+        <div class="nav-links">
+          <a href="#" class="nav-link active" onclick="showSection('adminOverview')">
+            <i class="fas fa-chart-bar"></i> Overview
+          </a>
+          <a href="#" class="nav-link" onclick="showSection('adminUsers')">
+            <i class="fas fa-users"></i> Users
+          </a>
+          <a href="#" class="nav-link" onclick="showSection('adminAppointments')">
+            <i class="fas fa-calendar-alt"></i> Appointments
+          </a>
+          <a href="#" class="nav-link" onclick="showSection('adminBills')">
+            <i class="fas fa-file-invoice-dollar"></i> Bills
+          </a>
+          <a href="#" class="nav-link" onclick="showSection('adminRecords')">
+            <i class="fas fa-file-medical"></i> Medical Records
+          </a>
+          <a href="#" class="nav-link" onclick="showSection('adminLab')">
+            <i class="fas fa-flask"></i> Lab Reports
+          </a>
+          <a href="#" class="nav-link" onclick="showSection('adminCreateUser')">
+            <i class="fas fa-user-plus"></i> Create User
+          </a>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <!-- Overview Section -->
+      <div id="adminOverview" class="section active">
+        <div class="grid">
+          <div class="stat-card">
+            <h3><i class="fas fa-user-injured"></i> Total Patients</h3>
+            <p id="totalPatients">0</p>
+          </div>
+          <div class="stat-card">
+            <h3><i class="fas fa-user-md"></i> Total Doctors</h3>
+            <p id="totalDoctors">0</p>
+          </div>
+          <div class="stat-card">
+            <h3><i class="fas fa-calendar-check"></i> Appointments</h3>
+            <p id="totalAppointments">0</p>
+          </div>
+          <div class="stat-card">
+            <h3><i class="fas fa-dollar-sign"></i> Revenue</h3>
+            <p id="totalRevenue">$0</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Users Section -->
+      <div id="adminUsers" class="section hidden">
+        <div class="container">
+          <h3><i class="fas fa-users"></i> Manage Users</h3>
+          <table id="adminUsersTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+                <th>Joined</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Create User Section -->
+      <div id="adminCreateUser" class="section hidden">
+        <div class="container">
+          <h3><i class="fas fa-user-plus"></i> Create New User</h3>
+          <form id="adminCreateUserForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="adminUserRole">Role</label>
+                <select id="adminUserRole" onchange="toggleAdminSpecialization()" required>
+                  <option value="">Select Role</option>
+                  <option value="patient">Patient</option>
+                  <option value="doctor">Doctor</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="adminUserFirstName">First Name</label>
+                <input type="text" id="adminUserFirstName" placeholder="First name" required>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="adminUserLastName">Last Name</label>
+                <input type="text" id="adminUserLastName" placeholder="Last name" required>
+              </div>
+              <div class="form-group">
+                <label for="adminUserEmail">Email</label>
+                <input type="email" id="adminUserEmail" placeholder="Email address" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="adminUserPhone">Phone</label>
+                <input type="tel" id="adminUserPhone" placeholder="Phone number" required>
+              </div>
+              <div class="form-group">
+                <label for="adminUserPassword">Password</label>
+                <input type="password" id="adminUserPassword" placeholder="Password" required>
+              </div>
+            </div>
+
+            <div id="adminSpecializationGroup" class="form-group hidden">
+              <label for="adminUserSpecialization">Specialization</label>
+              <select id="adminUserSpecialization">
+                <option value="General Practice">General Practice</option>
+                <option value="Cardiology">Cardiology</option>
+                <option value="Neurology">Neurology</option>
+                <option value="Pediatrics">Pediatrics</option>
+                <option value="Orthopedics">Orthopedics</option>
+                <option value="Dermatology">Dermatology</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create User</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Appointments Section -->
+      <div id="adminAppointments" class="section hidden">
+        <div class="container">
+          <h3><i class="fas fa-calendar-alt"></i> All Appointments</h3>
+          <table id="adminAppointmentsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Date & Time</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Bills Section -->
+      <div id="adminBills" class="section hidden">
+        <div class="container">
+          <h3><i class="fas fa-file-invoice-dollar"></i> All Bills</h3>
+          <table id="adminBillsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Medical Records Section -->
+      <div id="adminRecords" class="section hidden">
+        <div class="container">
+          <h3><i class="fas fa-file-medical"></i> Medical Records</h3>
+          <table id="adminRecordsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Diagnosis</th>
+                <th>Treatment</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Lab Reports Section -->
+      <div id="adminLab" class="section hidden">
+        <div class="container">
+          <h3><i class="fas fa-flask"></i> Lab Reports</h3>
+          <table id="adminLabTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Patient</th>
+                <th>Doctor</th>
+                <th>Test Type</th>
+                <th>Result</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= DOCTOR DASHBOARD ================= -->
+  <div id="doctorDashboard" class="dashboard hidden">
+    <!-- Doctor dashboard content remains the same as before -->
+    <header>
+      <div class="header-content">
+        <h1><i class="fas fa-user-md"></i> Doctor Dashboard</h1>
+        <div class="user-info">
+          <div class="user-avatar" id="doctorAvatar">D</div>
+          <span id="doctorName">Doctor</span>
+        </div>
+      </div>
+    </header>
+    
+    <nav>
+      <div class="nav-container">
+        <div class="nav-links">
+          <a href="#" class="nav-link active" onclick="showSection('doctorAppointments')">
+            <i class="fas fa-calendar-alt"></i> Appointments
+          </a>
+          <a href="#" class="nav-link" onclick="showSection('doctorBills')">
+            <i class="fas fa-file-invoice-dollar"></i> Bills
+          </a>
+          <a href="#" class="nav-link" onclick="showSection('doctorRecords')">
+            <i class="fas fa-file-medical"></i> Medical Records
+          </a>
+          <a href="#" class="nav-link" onclick="showSection('doctorLab')">
+            <i class="fas fa-flask"></i> Lab Reports
+          </a>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <!-- Doctor sections remain the same -->
+      <div id="doctorAppointments" class="section active">
+        <div class="container">
+          <h3><i class="fas fa-calendar-alt"></i> Your Appointments</h3>
+          <table id="doctorAppointmentsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Patient</th>
+                <th>Phone</th>
+                <th>Date & Time</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="doctorBills" class="section hidden">
+        <div class="container">
+          <h3><i class="fas fa-file-invoice-dollar"></i> Generate Bill</h3>
+          <form id="doctorBillForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="doctorBillPatient">Select Patient</label>
+                <select id="doctorBillPatient" required></select>
+              </div>
+              <div class="form-group">
+                <label for="consultationFee">Consultation Fee ($)</label>
+                <input type="number" id="consultationFee" value="150" min="0" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="additionalAmount">Additional Amount ($)</label>
+              <input type="number" id="additionalAmount" value="0" min="0" placeholder="Additional charges">
+            </div>
+            <div class="form-group">
+              <label>Total Amount: $<span id="totalAmount">150</span></label>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Bill</button>
+          </form>
+
+          <h3 style="margin-top: 40px;"><i class="fas fa-history"></i> Generated Bills</h3>
+          <table id="doctorBillsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Patient</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="doctorRecords" class="section hidden">
+        <div class="container">
+          <h3><i class="fas fa-file-medical"></i> Create Medical Record</h3>
+          <form id="medicalRecordForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="recordPatient">Select Patient</label>
+                <select id="recordPatient" required></select>
+              </div>
+              <div class="form-group">
+                <label for="diagnosis">Diagnosis</label>
+                <input type="text" id="diagnosis" placeholder="Enter diagnosis" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="treatment">Treatment</label>
+              <textarea id="treatment" placeholder="Enter treatment details" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Record</button>
+          </form>
+
+          <h3 style="margin-top: 40px;"><i class="fas fa-list"></i> Medical Records</h3>
+          <table id="doctorRecordsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Patient</th>
+                <th>Diagnosis</th>
+                <th>Treatment</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="doctorLab" class="section hidden">
+        <div class="container">
+          <h3><i class="fas fa-flask"></i> Upload Lab Report</h3>
+          <form id="labReportForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="labPatient">Select Patient</label>
+                <select id="labPatient" required></select>
+              </div>
+              <div class="form-group">
+                <label for="testType">Test Type</label>
+                <input type="text" id="testType" placeholder="e.g., Blood Test, X-Ray" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="labNotes">Result Notes</label>
+              <textarea id="labNotes" placeholder="Enter test results" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload Report</button>
+          </form>
+
+          <h3 style="margin-top: 40px;"><i class="fas fa-list"></i> Lab Reports</h3>
+          <table id="doctorLabTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Patient</th>
+                <th>Test Type</th>
+                <th>Result</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= PATIENT DASHBOARD ================= -->
+  <div id="patientDashboard" class="dashboard hidden">
+    <!-- Patient dashboard content remains the same as before -->
+    <header>
+      <div class="header-content">
+        <h1><i class="fas fa-user-injured"></i> Patient Dashboard</h1>
+        <div class="user-info">
+          <div class="user-avatar" id="patientAvatar">P</div>
+          <span id="patientName">Patient</span>
+        </div>
+      </div>
+    </header>
+    
+    <nav>
+      <div class="nav-container">
+        <div class="nav-links">
+          <a href="#" class="nav-link active" onclick="showSection('patientBook')">
+            <i class="fas fa-calendar-plus"></i> Book Appointment
+          </a>
+          <a href="#" class="nav-link" onclick="showSection('patientAppointments')">
+            <i class="fas fa-calendar-check"></i> My Appointments
+          </a>
+          <a href="#" class="nav-link" onclick="showSection('patientBills')">
+            <i class="fas fa-file-invoice-dollar"></i> My Bills
+          </a>
+          <a href="#" class="nav-link" onclick="showSection('patientRecords')">
+            <i class="fas fa-file-medical"></i> Medical Records
+          </a>
+          <a href="#" class="nav-link" onclick="showSection('patientLab')">
+            <i class="fas fa-flask"></i> Lab Reports
+          </a>
+        </div>
+        <button class="btn btn-danger btn-sm" onclick="logout()">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <!-- Patient sections remain the same -->
+      <div id="patientBook" class="section active">
+        <div class="container">
+          <h3><i class="fas fa-calendar-plus"></i> Book New Appointment</h3>
+          <form id="appointmentBookingForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="appointmentSpecialization">Specialization</label>
+                <select id="appointmentSpecialization" onchange="loadAvailableDoctors()" required>
+                  <option value="">Select Specialization</option>
+                  <option value="General Practice">General Practice</option>
+                  <option value="Cardiology">Cardiology</option>
+                  <option value="Neurology">Neurology</option>
+                  <option value="Pediatrics">Pediatrics</option>
+                  <option value="Orthopedics">Orthopedics</option>
+                  <option value="Dermatology">Dermatology</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="appointmentDoctor">Select Doctor</label>
+                <select id="appointmentDoctor" required></select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="appointmentDate">Date</label>
+                <input type="date" id="appointmentDate" required>
+              </div>
+              <div class="form-group">
+                <label for="appointmentTime">Time</label>
+                <select id="appointmentTime" required>
+                  <option value="">Select Time</option>
+                  <option value="09:00">09:00 AM</option>
+                  <option value="10:00">10:00 AM</option>
+                  <option value="11:00">11:00 AM</option>
+                  <option value="14:00">02:00 PM</option>
+                  <option value="15:00">03:00 PM</option>
+                  <option value="16:00">04:00 PM</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="appointmentReason">Reason for Visit</label>
+              <textarea id="appointmentReason" placeholder="Describe your symptoms or reason for appointment" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Book Appointment</button>
+          </form>
+        </div>
+      </div>
+
+      <div id="patientAppointments" class="section hidden">
+        <div class="container">
+          <h3><i class="fas fa-calendar-check"></i> My Appointments</h3>
+          <table id="patientAppointmentsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Doctor</th>
+                <th>Specialization</th>
+                <th>Date & Time</th>
+                <th>Reason</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="patientBills" class="section hidden">
+        <div class="container">
+          <h3><i class="fas fa-file-invoice-dollar"></i> My Bills</h3>
+          <table id="patientBillsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Doctor</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="patientRecords" class="section hidden">
+        <div class="container">
+          <h3><i class="fas fa-file-medical"></i> My Medical Records</h3>
+          <table id="patientRecordsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Doctor</th>
+                <th>Diagnosis</th>
+                <th>Treatment</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="patientLab" class="section hidden">
+        <div class="container">
+          <h3><i class="fas fa-flask"></i> My Lab Reports</h3>
+          <table id="patientLabTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Doctor</th>
+                <th>Test Type</th>
+                <th>Result</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Container -->
+  <div id="alertBox" class="notification"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
